@@ -1,1 +1,164 @@
 
+/**
+* Name: Chanh Tran
+* File:CheckingAccount.java
+* Description: Checking Account
+*/
+import java.util.Date;
+import java.util.Scanner;
+
+public class CheckingAccount {
+    private String uniqueID;
+    private double acctBalance;
+    private double annualInterestRate;
+    private Date dateCreated;
+    Scanner input = new Scanner(System.in);
+    public CheckingAccount() {
+        uniqueID = "";
+        acctBalance = 500;
+        annualInterestRate = 0;
+        dateCreated = new Date();
+    }
+
+    public CheckingAccount(String id, double balance) {
+        uniqueID = id;
+        acctBalance = balance;
+        annualInterestRate = 0;
+        dateCreated = new Date();
+    }
+
+    public String getUniqueID() {
+        return uniqueID;
+    }
+
+    public void setUniqueID(String id) {
+        if (id.length() >= 4) {
+            uniqueID = id;}
+        while (id.length() <4)
+            {System.out.println("Error: Account ID must be at least 4 characters long.");
+            id = input.nextLine();
+        }
+        uniqueID = id;
+    }
+
+    public double getAcctBalance() {
+        return acctBalance;
+    }
+
+    public void setAcctBalance(double balance) {
+        while( balance < 500) {
+            System.out.println("Error: Account balance must be at least $500.");
+            balance = input.nextDouble();
+        }
+        this.acctBalance = balance;
+    }
+
+    public double getAnnualInterestRate() {
+        return annualInterestRate;
+    }
+
+    public void setAnnualInterestRate(double rate) {
+        annualInterestRate = rate;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+    public String toDeposit()
+    {
+    	return "Your New Balance is $" + String.format("%.2f", acctBalance) + "\n";
+    }
+    public String toString() {
+        return "Account ID: " + uniqueID + "\n" +
+               "Balance: $" + String.format("%.2f", acctBalance) + "\n" +
+               "Dailly Interest Rate: $" + String.format("%.2f",annualInterestRate * acctBalance / 36500 ) + "\n" +
+               "Date Created: " + dateCreated;
+    }
+
+    public void depositCash(double amount) {
+        if (amount > 0) {
+            acctBalance += amount;
+        } else {
+            System.out.println("Error: Deposit amount must be greater than 0.");
+        }
+    }
+
+    public double getDailyIntRate() {
+        return annualInterestRate * acctBalance / 36500;
+    }
+}
+
+/**
+* Name: Chanh Tran
+* File:CheckingAccount.java
+* Description: The Midfirst Bank Application
+*/
+import java.util.Scanner;
+
+public class BankApplication {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        CheckingAccount account = new CheckingAccount();
+        System.out.println("MidFirst Banking App");
+
+        // Ask for account ID
+        System.out.print("Enter the Unique ID: ");
+        String id = input.nextLine();
+        account.setUniqueID(id);
+
+        // Ask for initial balance
+        System.out.print("Enter initial balance: ");
+        double balance = input.nextDouble();
+        account.setAcctBalance(balance);
+
+        // Ask for annual interest rate
+        System.out.print("Enter annual interest rate: ");
+        double rate = input.nextDouble();
+        account.setAnnualInterestRate(rate);
+        // Menu loop
+        int choice = 0;
+        while (choice != 4) {
+            // Display menu options
+        	System.out.println(" ==================== ");
+            System.out.println("        OPTIONS    ");
+            System.out.println(" ====================  ");
+            System.out.println("1. Deposit cash");
+            System.out.println("2. Check daily interest rate");
+            System.out.println("3. Check account details");
+            System.out.println("4. Exit");
+
+            // Get user choice
+            System.out.print("Enter your selection ");
+            choice = input.nextInt();
+            while (choice != 1 && choice != 2 && choice != 3 && choice != 4)
+            {
+            	System.out.println("INVALID SELECTION! PLEASE TRY AGAIN!");
+            	choice = input.nextInt();
+            }
+            // Handle user choice
+            if (choice == 1) {
+                System.out.print("Enter deposit amount: ");
+                double amount = input.nextDouble();
+                account.depositCash(amount);
+                balance += amount;
+                System.out.println(account.toDeposit());
+            } 
+            else if (choice == 2) {
+                double dailyRate = account.getDailyIntRate();
+                System.out.println("Daily Interest Rate is: $" + String.format("%.2f", dailyRate));
+                }
+            else if (choice ==3)
+            {
+            	System.out.println(account.toString());
+            }
+            else if (choice == 4)
+            {
+            	System.out.println("Programing Existing ...");
+            }
+        }}}
+                
+                
+                
+                
+               
